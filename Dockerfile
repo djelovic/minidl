@@ -1,7 +1,9 @@
 # syntax=docker/dockerfile:1
 
-# Build stage
-FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+# Build stage. Pinned to the *build* platform so the SDK runs natively even when
+# targeting another architecture: the publish output is portable IL (no RID is
+# set), so the same /app payload is valid for every runtime image below.
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
 # Restore first (cached unless the project file changes).
@@ -12,7 +14,9 @@ RUN dotnet restore
 COPY . ./
 RUN dotnet publish MiniDl.csproj -c Release -o /app
 
-# Runtime stage
+# Runtime stage. Built once per --platform target, pulling that architecture's
+# base image, so `docker buildx build --platform linux/amd64,linux/arm64`
+# produces a manifest list that serves both.
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app
 COPY --from=build /app ./

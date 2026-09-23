@@ -65,7 +65,7 @@ docker run -d \
   -p 8080:8080 \
   -v "$PWD/appsettings.json:/app/appsettings.json:ro" \
   -v "$PWD/downloads:/app/downloads" \
-  djelovic/minidl:1.0.0.0
+  djelovic/minidl:1.1.0.0
 ```
 
 Then open <http://localhost:8080>.
@@ -81,7 +81,7 @@ Create a `docker-compose.yml`:
 ```yaml
 services:
   minidl:
-    image: djelovic/minidl:1.0.0.0
+    image: djelovic/minidl:1.1.0.0
     container_name: minidl
     ports:
       - "8080:8080"
