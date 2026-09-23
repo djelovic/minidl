@@ -6,9 +6,13 @@ state) over Server-Sent Events. Downloads can be paused, resumed, and cancelled,
 and partially downloaded files resume from where they left off via HTTP range
 requests.
 
+![URL Entry](doc/url.png)
+
 Files are routed automatically: anything containing `'.sXXeXX.'` in the file name
 lands under the TV-shows root (organised by show and season), other video files
 under the movies root, and everything else under the "other" root.
+
+![Download](doc/dl.png)
 
 ## Configuration
 
